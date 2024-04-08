@@ -135,6 +135,58 @@ class EmpleadoController extends Controller
         return response()->json($data, 200);
     }
 
+    public function updatePartial(Request $request, $id)
+    {
+        $empleado = Empleado::find($id);
+
+        if (!$empleado) {
+            $data = [
+                'message' => 'Empleado no encontrado',
+                'status' => 404
+            ];
+            return response()->json($data, 404);
+        }
+
+        $validator = validator::make($request->all(), [
+            'nombre' => '',
+            'apellido' => '',
+            'email' => '|email|unique:empleados,email,' . $id,
+            'tipo_usuario' => '|in:gerente,empleado,RRHH,CEO,marketing'
+        ]);
+
+        if ($validator->fails()) {
+            $data = [
+                'message' => 'Error en la validación de los datos',
+                'status' => 400,
+                'data' => $validator->errors()
+            ];
+            return response()->json($data, 400);
+        }
+
+        if ($request->has('nombre')) {
+            $empleado->nombre = $request->nombre;
+        }
+        if ($request->has('apellido')) {
+            $empleado->apellido = $request->apellido;
+        }
+
+        if ($request->has('email')) {
+            $empleado->email = $request->email;
+        }
+        if ($request->has('tipo_usuario')) {
+            $empleado->tipo_usuario = $request->tipo_usuario;
+        }
+
+        $empleado->save();
+
+        $data = [
+            'message' => 'Empleado actualizado correctamente',
+            'status' => 200,
+            'data' => $empleado
+        ];
+        return response()->json($data, 200);
+    }
+
     public function delete($id)
     {
         $empleado = Empleado::find($id);

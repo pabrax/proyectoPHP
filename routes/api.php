@@ -20,6 +20,9 @@ Route::post('/user', [EmpleadoController::class, 'store']);
 
 Route::put('/user/{id}', [EmpleadoController::class, 'update']);
 
+Route::patch('/user/{id}', [EmpleadoController::class, 'updatePartial']);
+
+
 Route::delete('/user/{id}', [EmpleadoController::class, 'delete']);
 
 
