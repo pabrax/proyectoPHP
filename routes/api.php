@@ -3,15 +3,10 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmpleadoController;
-
+use App\Http\Controllers\TareaController;
 
 
 // user routes
-
-// Route::get('/user', function (Request $request) {
-//     return $request->user();
-// })->middleware('auth:sanctum');
-
 Route::get('/user', [EmpleadoController::class, 'index']);
 
 Route::get('/user/{id}', [EmpleadoController::class, 'show']);
@@ -21,7 +16,6 @@ Route::post('/user', [EmpleadoController::class, 'store']);
 Route::put('/user/{id}', [EmpleadoController::class, 'update']);
 
 Route::patch('/user/{id}', [EmpleadoController::class, 'updatePartial']);
-
 
 Route::delete('/user/{id}', [EmpleadoController::class, 'delete']);
 
@@ -42,22 +36,14 @@ Route::post('/user/logout', function (Request $request) {
 
 // task routes
 
-Route::get('/tasks', function (Request $request) {
-    // get all tasks
-});
+Route::get('/tasks', [TareaController::class, 'index']);
 
-Route::post('/tasks', function (Request $request) {
-    // post a task
-});
+Route::post('/tasks', [TareaController::class, 'store']);
 
-Route::get('/tasks/{id}', function ($id) {
-    // Logic to retrieve a specific task by ID
-});
+Route::get('/tasks/{id}', [TareaController::class, 'show']);
 
-Route::put('/tasks/{id}', function (Request $request, $id) {
-    // Logic to update a specific task by ID
-});
+Route::put('/tasks/{id}', [TareaController::class, 'update']);
 
-Route::delete('/tasks/{id}', function ($id) {
-    // Logic to delete a specific task by ID
-});
+Route::patch('/tasks/{id}', [TareaController::class, 'updatePartial']);
+
+Route::delete('/tasks/{id}', [TareaController::class, 'delete']);
