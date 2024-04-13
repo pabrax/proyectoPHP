@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Models\Empleado;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 
 
 class EmpleadoController extends Controller
@@ -50,11 +51,13 @@ class EmpleadoController extends Controller
             return response()->json($data, 400);
         }
 
+        $pwd = Hash::make($request->password);
+
         $empleado = Empleado::create([
             'name' => $request->name,
             'lastname' => $request->lastname,
             'email' => $request->email,
-            'password' => bcrypt($request->password),
+            'password' => $pwd,
             'user_type' => $request->user_type
         ]);
 
