@@ -34,10 +34,11 @@ class EmpleadoController extends Controller
     public function store(Request $request)
     {
         $validator = validator::make($request->all(), [
-            'nombre' => 'required',
-            'apellido' => 'required',
+            'name' => 'required',
+            'lastname' => 'required',
             'email' => 'required|email|unique:empleados,email',
-            'tipo_usuario' => 'required|in:gerente,empleado,RRHH,CEO,marketing'
+            'password' => 'required|min:8',
+            'user_type' => 'required|in:gerente,empleado,RRHH,CEO,marketing'
         ]);
 
         if ($validator->fails()) {
@@ -50,10 +51,10 @@ class EmpleadoController extends Controller
         }
 
         $empleado = Empleado::create([
-            'nombre' => $request->nombre,
-            'apellido' => $request->apellido,
+            'name' => $request->name,
+            'lastname' => $request->lastname,
             'email' => $request->email,
-            'tipo_usuario' => $request->tipo_usuario
+            'user_type' => $request->user_type
         ]);
 
         if (!$empleado) {
@@ -105,10 +106,10 @@ class EmpleadoController extends Controller
         }
 
         $validator = validator::make($request->all(), [
-            'nombre' => 'required',
-            'apellido' => 'required',
+            'name' => 'required',
+            'lastname' => 'required',
             'email' => 'required|email|unique:empleados,email,' . $id,
-            'tipo_usuario' => 'required|in:gerente,empleado,RRHH,CEO,marketing'
+            'user_type' => 'required|in:gerente,empleado,RRHH,CEO,marketing'
         ]);
 
         if ($validator->fails()) {
@@ -121,10 +122,10 @@ class EmpleadoController extends Controller
         }
 
         $empleado = Empleado::where('id', $id)->update([
-            'nombre' => $request->nombre,
-            'apellido' => $request->apellido,
+            'name' => $request->name,
+            'lastname' => $request->lastname,
             'email' => $request->email,
-            'tipo_usuario' => $request->tipo_usuario
+            'user_type' => $request->user_type
         ]);
 
         $data = [
@@ -148,10 +149,10 @@ class EmpleadoController extends Controller
         }
 
         $validator = validator::make($request->all(), [
-            'nombre' => '',
-            'apellido' => '',
+            'name' => '',
+            'lastname' => '',
             'email' => '|email|unique:empleados,email,' . $id,
-            'tipo_usuario' => '|in:gerente,empleado,RRHH,CEO,marketing'
+            'user_type' => '|in:gerente,empleado,RRHH,CEO,marketing'
         ]);
 
         if ($validator->fails()) {
@@ -163,18 +164,18 @@ class EmpleadoController extends Controller
             return response()->json($data, 400);
         }
 
-        if ($request->has('nombre')) {
-            $empleado->nombre = $request->nombre;
+        if ($request->has('name')) {
+            $empleado->name = $request->name;
         }
-        if ($request->has('apellido')) {
-            $empleado->apellido = $request->apellido;
+        if ($request->has('lastname')) {
+            $empleado->lastname = $request->lastname;
         }
 
         if ($request->has('email')) {
             $empleado->email = $request->email;
         }
-        if ($request->has('tipo_usuario')) {
-            $empleado->tipo_usuario = $request->tipo_usuario;
+        if ($request->has('user_type')) {
+            $empleado->user_type = $request->user_type;
         }
 
         $empleado->save();
