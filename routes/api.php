@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmpleadoController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\TareaController;
 
 
@@ -26,13 +27,9 @@ Route::post('/user/register', function (Request $request) {
     // Logic to register a new user
 });
 
-Route::post('/user/login', function (Request $request) {
-    // Logic to log in the user
-});
+Route::post('/login', [LoginController::class, 'login']);
 
-Route::post('/user/logout', function (Request $request) {
-    // Logic to log out the user
-});
+Route::post('/logout', [LoginController::class, 'logout']);
 
 // task routes
 
