@@ -16,7 +16,10 @@ return new class extends Migration
             $table->string('nombre');
             $table->string('apellido');
             $table->string('email')->unique()->nullable();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
             $table->enum('tipo_usuario', ['gerente', 'empleado', 'RRHH', 'CEO', 'marketing'])->default('empleado');
+            $table->rememberToken();
             $table->timestamps();
         });
     }
