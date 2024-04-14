@@ -20,17 +20,6 @@ Route::patch('/user/{id}', [EmpleadoController::class, 'updatePartial']);
 
 Route::delete('/user/{id}', [EmpleadoController::class, 'delete']);
 
-
-// general user routes
-
-Route::post('/user/register', function (Request $request) {
-    // Logic to register a new user
-});
-
-Route::post('/login', [LoginController::class, 'login']);
-
-Route::post('/logout', [LoginController::class, 'logout']);
-
 // task routes
 
 Route::get('/tasks', [TareaController::class, 'index']);

@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\AsistenciaController;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+
 use App\Models\Empleado;
 use App\Models\Asistencia;
-use Illuminate\Support\Facades\Hash ;
 
 class LoginController extends Controller
 {
@@ -16,7 +16,7 @@ class LoginController extends Controller
     {
         $validator = validator::make($request->all(), [
             'email' => 'required|email',
-            'password' => 'required'
+            'password' => 'required|min:8'
         ]);
 
         if ($validator->fails()) {
@@ -38,6 +38,19 @@ class LoginController extends Controller
             return response()->json($data, 401);
         }
 
+        $data = $request->only('email', 'password');
+        $remember = ($request->has('remember')) ? true : false;
+
+        if (!Auth::attempt($data, $remember)) {
+            $data = [
+                'message' => 'Error al iniciar sesión',
+                'status' => 500
+            ];
+            return response()->json($data, 500);
+        }
+
+        $request->session()->regenerate();
+
         // Registro de asistencia al inicio de sesión
         $asistenciaInicio = Asistencia::create([
             'hora_entrada' => now()->format('H:i:s'),
@@ -46,39 +59,42 @@ class LoginController extends Controller
         ]);
 
         $data = [
-            'message' => 'Inicio de sesión exitoso',
+            'message' => 'Inicio de sesion exitoso',
             'status' => 200,
-            'data' => $usuario
+            'data' => $usuario,
+            'asistenciaInicio' => $asistenciaInicio
         ];
 
         return response()->json($data, 200);
     }
 
+    public function me()
+    {
+        $user = Auth::user();
+
+        if ($user) {
+            return response()->json($user, 200);
+        }
+
+        return response()->json(null, 204);
+    }
 
     public function logout(Request $request)
     {
-        $usuario = Usuario::find($id);
-
-        if (!$usuario) {
-            $data = [
-                'message' => 'Usuario no encontrado',
-                'status' => 404
-            ];
-            return response()->json($data, 404);
-        }
+        $user = Auth::user();
 
         // Registro de asistencia al cierre de sesión
-        $asistenciaFin = Asistencia::create([
-            'hora_fin' => now()->format('H:i:s'),
-            'fecha_fin' => now()->toDateString(),
-            'usuario_id' => $usuario->id
-        ]);
+        $asistencia = Asistencia::where('empleado_id', $user->id)
+            ->where('fecha', now()->toDateString())
+            ->first();
 
-        $data = [
-            'message' => 'Cierre de sesión exitoso',
-            'status' => 200
-        ];
+        $asistencia->hora_salida = now()->format('H:i:s');
+        $asistencia->save();
 
-        return response()->json($data, 200);
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return response()->json(200);
     }
 }
