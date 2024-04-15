@@ -4,16 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Models\Asistencia;
+use App\Models\Assists;
 use Illuminate\Support\Facades\Validator;
 
-class AsistenciaController extends Controller
+class AssistsController extends Controller
 {
     public function index()
     {
-        $Asistencias = Asistencia::all();
+        $Assist = Assists::all();
 
-        if ($Asistencias->isEmpty()) {
+        if ($Assist->isEmpty()) {
             $data = [
                 'message' => 'No hay asistencias registradas',
                 'status' => '404'
@@ -22,21 +22,21 @@ class AsistenciaController extends Controller
         }
 
         $data = [
-            'message' => 'Asistencias recuperadas correctamente',
+            'message' => 'asistencias recuperadas correctamente',
             'status' => '200',
-            'data' => $Asistencias
+            'data' => $Assist
         ];
 
-        return response()->json($Asistencias, 200);
+        return response()->json($Assist, 200);
     }
 
     public function store(Request $request)
     {
         $validator = validator::make($request->all(), [
-            'fecha' => 'required',
-            'hora_entrada' => 'required',
-            'hora_salida' => '',
-            'empleado_id' => 'required|exists:empleados,id'
+            'date' => 'required',
+            'entry_time' => 'required',
+            'exit_time' => '',
+            'employee_id' => 'required|exists:employees,id'
         ]);
 
         if ($validator->fails()) {
@@ -48,16 +48,16 @@ class AsistenciaController extends Controller
             return response()->json($data, 400);
         }
 
-        $asistencia = Asistencia::create([
-            'fecha' => $request->fecha,
-            'hora_entrada' => $request->hora_entrada,
-            'hora_salida' => $request->hora_salida,
-            'empleado_id' => $request->empleado_id
+        $Assists = Assists::create([
+            'date' => $request->date,
+            'entry_time' => $request->entry_time,
+            'exit_time' => $request->exit_time,
+            'employee_id' => $request->employee_id
         ]);
 
-        if (!$asistencia) {
+        if (!$Assists) {
             $data = [
-                'message' => 'Error al registrar la asistencia',
+                'message' => 'Error al registrar la Assists',
                 'status' => 500
             ];
             return response()->json($data, 500);
@@ -66,20 +66,20 @@ class AsistenciaController extends Controller
 
     public function show($id)
     {
-        $asistencia = Asistencia::find($id);
+        $Assists = Assists::find($id);
 
-        if (!$asistencia) {
+        if (!$Assists) {
             $data = [
-                'message' => 'Asistencia no encontrada',
+                'message' => 'Assists no encontrada',
                 'status' => 404
             ];
             return response()->json($data, 404);
         }
 
         $data = [
-            'message' => 'Asistencia recuperada correctamente',
+            'message' => 'Assists recuperada correctamente',
             'status' => 200,
-            'data' => $asistencia
+            'data' => $Assists
         ];
 
         return response()->json($data, 200);
@@ -87,21 +87,21 @@ class AsistenciaController extends Controller
 
     public function update(Request $request, $id)
     {
-        $asistencia = Asistencia::find($id);
+        $Assists = Assists::find($id);
 
-        if (!$asistencia) {
+        if (!$Assists) {
             $data = [
-                'message' => 'Asistencia no encontrada',
+                'message' => 'Assists no encontrada',
                 'status' => 404
             ];
             return response()->json($data, 404);
         }
 
         $validator = validator::make($request->all(), [
-            'fecha' => 'required',
-            'hora_entrada' => 'required',
-            'hora_salida' => '',
-            'empleado_id' => 'required|exists:empleados,id'
+            'date' => 'required',
+            'entry_time' => 'required',
+            'exit_time' => '',
+            'employee_id' => 'required|exists:employees,id'
         ]);
 
         if ($validator->fails()) {
@@ -113,17 +113,17 @@ class AsistenciaController extends Controller
             return response()->json($data, 400);
         }
 
-        $asistencia = Asistencia::where('id', $id)->update([
-            'fecha' => $request->fecha,
-            'hora_entrada' => $request->hora_entrada,
-            'hora_salida' => $request->hora_salida,
-            'empleado_id' => $request->empleado_id
+        $Assists = Assists::where('id', $id)->update([
+            'date' => $request->date,
+            'entry_time' => $request->entry_time,
+            'exit_time' => $request->exit_time,
+            'employee_id' => $request->employee_id
         ]);
 
         $data = [
-            'message' => 'Asistencia actualizada correctamente',
+            'message' => 'Assists actualizada correctamente',
             'status' => 200,
-            'data' => $asistencia
+            'data' => $Assists
         ];
 
         return response()->json($data, 200);
@@ -131,21 +131,21 @@ class AsistenciaController extends Controller
 
     public function updatePartial(Request $request, $id)
     {
-        $asistencia = Asistencia::find($id);
+        $Assists = Assists::find($id);
 
-        if (!$asistencia) {
+        if (!$Assists) {
             $data = [
-                'message' => 'Asistencia no encontrada',
+                'message' => 'Assists no encontrada',
                 'status' => 404
             ];
             return response()->json($data, 404);
         }
 
         $validator = validator::make($request->all(), [
-            'fecha' => '',
-            'hora_entrada' => '',
-            'hora_salida' => '',
-            'empleado_id' => 'required|exists:empleados,id'
+            'date' => '',
+            'entry_time' => '',
+            'exit_time' => '',
+            'employee_id' => 'required|exists:employees,id'
         ]);
 
         if ($validator->fails()) {
@@ -157,25 +157,25 @@ class AsistenciaController extends Controller
             return response()->json($data, 400);
         }
 
-        if ($request->has('fecha')) {
-            $asistencia->fecha = $request->fecha;
+        if ($request->has('date')) {
+            $Assists->date = $request->date;
         }
-        if ($request->has('hora_entrada')) {
-            $asistencia->hora_entrada = $request->hora_entrada;
+        if ($request->has('entry_time')) {
+            $Assists->entry_time = $request->entry_time;
         }
-        if ($request->has('hora_salida')) {
-            $asistencia->hora_salida = $request->hora_salida;
+        if ($request->has('exit_time')) {
+            $Assists->exit_time = $request->exit_time;
         }
-        if ($request->has('empleado_id')) {
-            $asistencia->empleado_id = $request->empleado_id;
+        if ($request->has('employee_id')) {
+            $Assists->employee_id = $request->employee_id;
         }
 
-        $asistencia->save();
+        $Assists->save();
 
         $data = [
-            'message' => 'Asistencia actualizada correctamente',
+            'message' => 'Assists actualizada correctamente',
             'status' => 200,
-            'data' => $asistencia
+            'data' => $Assists
         ];
 
         return response()->json($data, 200);
@@ -183,20 +183,20 @@ class AsistenciaController extends Controller
 
     public function delete($id)
     {
-        $asistencia = Asistencia::find($id);
+        $Assists = Assists::find($id);
 
-        if (!$asistencia) {
+        if (!$Assists) {
             $data = [
-                'message' => 'Asistencia no encontrada',
+                'message' => 'Assists no encontrada',
                 'status' => 404
             ];
             return response()->json($data, 404);
         }
 
-        $asistencia->delete();
+        $Assists->delete();
 
         $data = [
-            'message' => 'Asistencia eliminada correctamente',
+            'message' => 'Assists eliminada correctamente',
             'status' => 200
         ];
 

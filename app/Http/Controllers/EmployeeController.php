@@ -4,32 +4,32 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Models\Empleado;
+use App\Models\Employee;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 
 
-class EmpleadoController extends Controller
+class EmployeeController extends Controller
 {
     public function index()
     {
-        $Empleados = Empleado::all();
+        $employees = Employee::all();
 
-        if ($Empleados->isEmpty()) {
+        if ($employees->isEmpty()) {
             $data = [
-                'message' => 'No hay empleados registrados',
+                'message' => 'No hay Employees registrados',
                 'status' => '404'
             ];
             return response()->json($data, 404);
         }
 
         $data = [
-            'message' => 'Empleados recuperados correctamente',
+            'message' => 'Employees recuperados correctamente',
             'status' => '200',
-            'data' => $Empleados
+            'data' => $employees
         ];
 
-        return response()->json($Empleados, 200);
+        return response()->json($employees, 200);
     }
 
     public function store(Request $request)
@@ -37,9 +37,9 @@ class EmpleadoController extends Controller
         $validator = validator::make($request->all(), [
             'name' => 'required',
             'lastname' => 'required',
-            'email' => 'required|email|unique:empleados,email',
+            'email' => 'required|email|unique:employees,email',
             'password' => 'required|min:8',
-            'user_type' => 'required|in:gerente,empleado,RRHH,CEO,marketing'
+            'user_type' => 'required|in:gerente,Employee,RRHH,CEO,marketing'
         ]);
 
         if ($validator->fails()) {
@@ -53,7 +53,7 @@ class EmpleadoController extends Controller
 
         $pwd = Hash::make($request->password);
 
-        $empleado = Empleado::create([
+        $employee = Employee::create([
             'name' => $request->name,
             'lastname' => $request->lastname,
             'email' => $request->email,
@@ -61,49 +61,49 @@ class EmpleadoController extends Controller
             'user_type' => $request->user_type
         ]);
 
-        if (!$empleado) {
+        if (!$employee) {
             $data = [
-                'message' => 'Error al registrar el empleado',
+                'message' => 'Error al registrar el Employee',
                 'status' => 500
             ];
             return response()->json($data, 500);
         }
 
         $data = [
-            'message' => 'Empleado registrado correctamente',
+            'message' => 'Employee registrado correctamente',
             'status' => 201,
-            'data' => $empleado
+            'data' => $employee
         ];
         return response()->json($data, 201);
     }
 
     public function show($id)
     {
-        $empleado = Empleado::find($id);
+        $employee = Employee::find($id);
 
-        if (!$empleado) {
+        if (!$employee) {
             $data = [
-                'message' => 'Empleado no encontrado',
+                'message' => 'Employee no encontrado',
                 'status' => 404
             ];
             return response()->json($data, 404);
         }
 
         $data = [
-            'message' => 'Empleado recuperado correctamente',
+            'message' => 'Employee recuperado correctamente',
             'status' => 200,
-            'data' => $empleado
+            'data' => $employee
         ];
         return response()->json($data, 200);
     }
 
     public function update(Request $request, $id)
     {
-        $empleado = Empleado::find($id);
+        $employee = Employee::find($id);
 
-        if (!$empleado) {
+        if (!$employee) {
             $data = [
-                'message' => 'Empleado no encontrado',
+                'message' => 'Employee no encontrado',
                 'status' => 404
             ];
             return response()->json($data, 404);
@@ -112,8 +112,8 @@ class EmpleadoController extends Controller
         $validator = validator::make($request->all(), [
             'name' => 'required',
             'lastname' => 'required',
-            'email' => 'required|email|unique:empleados,email,' . $id,
-            'user_type' => 'required|in:gerente,empleado,RRHH,CEO,marketing'
+            'email' => 'required|email|unique:employees,email,' . $id,
+            'user_type' => 'required|in:gerente,Employee,RRHH,CEO,marketing'
         ]);
 
         if ($validator->fails()) {
@@ -125,7 +125,7 @@ class EmpleadoController extends Controller
             return response()->json($data, 400);
         }
 
-        $empleado = Empleado::where('id', $id)->update([
+        $employee = Employee::where('id', $id)->update([
             'name' => $request->name,
             'lastname' => $request->lastname,
             'email' => $request->email,
@@ -133,20 +133,20 @@ class EmpleadoController extends Controller
         ]);
 
         $data = [
-            'message' => 'Empleado actualizado correctamente',
+            'message' => 'Employee actualizado correctamente',
             'status' => 200,
-            'data' => $empleado
+            'data' => $employee
         ];
         return response()->json($data, 200);
     }
 
     public function updatePartial(Request $request, $id)
     {
-        $empleado = Empleado::find($id);
+        $employee = Employee::find($id);
 
-        if (!$empleado) {
+        if (!$employee) {
             $data = [
-                'message' => 'Empleado no encontrado',
+                'message' => 'Employee no encontrado',
                 'status' => 404
             ];
             return response()->json($data, 404);
@@ -155,8 +155,8 @@ class EmpleadoController extends Controller
         $validator = validator::make($request->all(), [
             'name' => '',
             'lastname' => '',
-            'email' => '|email|unique:empleados,email,' . $id,
-            'user_type' => '|in:gerente,empleado,RRHH,CEO,marketing'
+            'email' => '|email|unique:employees,email,' . $id,
+            'user_type' => '|in:gerente,Employee,RRHH,CEO,marketing'
         ]);
 
         if ($validator->fails()) {
@@ -169,45 +169,45 @@ class EmpleadoController extends Controller
         }
 
         if ($request->has('name')) {
-            $empleado->name = $request->name;
+            $employee->name = $request->name;
         }
         if ($request->has('lastname')) {
-            $empleado->lastname = $request->lastname;
+            $employee->lastname = $request->lastname;
         }
 
         if ($request->has('email')) {
-            $empleado->email = $request->email;
+            $employee->email = $request->email;
         }
         if ($request->has('user_type')) {
-            $empleado->user_type = $request->user_type;
+            $employee->user_type = $request->user_type;
         }
 
-        $empleado->save();
+        $employee->save();
 
         $data = [
-            'message' => 'Empleado actualizado correctamente',
+            'message' => 'Employee actualizado correctamente',
             'status' => 200,
-            'data' => $empleado
+            'data' => $employee
         ];
         return response()->json($data, 200);
     }
 
     public function delete($id)
     {
-        $empleado = Empleado::find($id);
+        $employee = Employee::find($id);
 
-        if (!$empleado) {
+        if (!$employee) {
             $data = [
-                'message' => 'Empleado no encontrado',
+                'message' => 'Employee no encontrado',
                 'status' => 404
             ];
             return response()->json($data, 404);
         }
 
-        $empleado->delete();
+        $employee->delete();
 
         $data = [
-            'message' => 'Empleado eliminado correctamente',
+            'message' => 'Employee eliminado correctamente',
             'status' => 200
         ];
         return response()->json($data, 200);

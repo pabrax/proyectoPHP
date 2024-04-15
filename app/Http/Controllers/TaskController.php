@@ -3,40 +3,39 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Tarea;
+use App\Models\Task;
 use Illuminate\Support\Facades\Validator;
 
 
-class TareaController extends Controller
+class TaskController extends Controller
 {
     public function index()
     {
-        $tareas = Tarea::all();
+        $tasks = Task::all();
 
-        if ($tareas->isEmpty()) {
+        if ($tasks->isEmpty()) {
             $data = [
-                'message' => 'No hay tareas registradas',
+                'message' => 'No hay tasks registradas',
                 'status' => '404'
             ];
             return response()->json($data, 404);
         }
 
         $data = [
-            'message' => 'Tareas recuperadas correctamente',
+            'message' => 'tasks recuperadas correctamente',
             'status' => '200',
-            'data' => $tareas
+            'data' => $tasks
         ];
 
-        return response()->json($tareas, 200);
+        return response()->json($tasks, 200);
     }
 
     public function store(Request $request)
     {
 
         $validator = validator::make($request->all(), [
-            'titulo' => 'required',
-            'descripcion' => 'required',
-            'fecha_entrega' => 'required|date'
+            'title' => 'required',
+            'description' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -48,56 +47,56 @@ class TareaController extends Controller
             return response()->json($data, 400);
         }
 
-        $tareas = Tarea::create([
+        $tasks = Task::create([
             'titulo' => $request->titulo,
             'descripcion' => $request->descripcion,
             'fecha_entrega' => $request->fecha_entrega
         ]);
 
-        if (!$tareas) {
+        if (!$tasks) {
             $data = [
-                'message' => 'Error al crear la tarea',
+                'message' => 'Error al crear la task',
                 'status' => 400
             ];
             return response()->json($data, 400);
         }
 
         $data = [
-            'message' => 'Tarea creada correctamente',
+            'message' => 'task creada correctamente',
             'status' => 200,
-            'data' => $tareas
+            'data' => $tasks
         ];
         return response()->json($data, 200);
     }
 
     public function show($id)
     {
-        $tarea = Tarea::find($id);
+        $task = Task::find($id);
 
-        if (!$tarea) {
+        if (!$task) {
             $data = [
-                'message' => 'Tarea no encontrada',
+                'message' => 'task no encontrada',
                 'status' => '404'
             ];
             return response()->json($data, 404);
         }
 
         $data = [
-            'message' => 'Tarea recuperada correctamente',
+            'message' => 'task recuperada correctamente',
             'status' => '200',
-            'data' => $tarea
+            'data' => $task
         ];
 
-        return response()->json($tarea, 200);
+        return response()->json($task, 200);
     }
 
     public function update(Request $request, $id)
     {
-        $tarea = Tarea::find($id);
+        $task = Task::find($id);
 
-        if (!$tarea) {
+        if (!$task) {
             $data = [
-                'message' => 'Tarea no encontrada',
+                'message' => 'task no encontrada',
                 'status' => '404'
             ];
             return response()->json($data, 404);
@@ -118,27 +117,27 @@ class TareaController extends Controller
             return response()->json($data, 400);
         }
 
-        $tarea = Tarea::where('id', $id)->update([
+        $task = Task::where('id', $id)->update([
             'titulo' => $request->titulo,
             'descripcion' => $request->descripcion,
             'fecha_entrega' => $request->fecha_entrega
         ]);
 
         $data = [
-            'message' => 'Tarea actualizada correctamente',
+            'message' => 'task actualizada correctamente',
             'status' => 200,
-            'data' => $tarea
+            'data' => $task
         ];
         return response()->json($data, 200);
     }
 
     public function updatePartial(Request $request, $id)
     {
-        $tarea = Tarea::find($id);
+        $task = Task::find($id);
 
-        if (!$tarea) {
+        if (!$task) {
             $data = [
-                'message' => 'Tarea no encontrada',
+                'message' => 'task no encontrada',
                 'status' => 404
             ];
             return response()->json($data, 404);
@@ -160,41 +159,41 @@ class TareaController extends Controller
         }
 
         if ($request->has('titulo')) {
-            $tarea->titulo = $request->titulo;
+            $task->titulo = $request->titulo;
         }
         if ($request->has('descripcion')) {
-            $tarea->descripcion = $request->descripcion;
+            $task->descripcion = $request->descripcion;
         }
         if ($request->has('fecha_entrega')) {
-            $tarea->fecha_entrega = $request->fecha_entrega;
+            $task->fecha_entrega = $request->fecha_entrega;
         }
 
-        $tarea->save();
+        $task->save();
 
         $data = [
-            'message' => 'Tarea actualizada correctamente',
+            'message' => 'task actualizada correctamente',
             'status' => 200,
-            'data' => $tarea
+            'data' => $task
         ];
         return response()->json($data, 200);
     }
 
     public function delete($id)
     {
-        $tarea = Tarea::find($id);
+        $task = Task::find($id);
 
-        if (!$tarea) {
+        if (!$task) {
             $data = [
-                'message' => 'Tarea no encontrada',
+                'message' => 'task no encontrada',
                 'status' => 404
             ];
             return response()->json($data, 404);
         }
 
-        $tarea->delete();
+        $task->delete();
 
         $data = [
-            'message' => 'Tarea eliminada correctamente',
+            'message' => 'task eliminada correctamente',
             'status' => 200
         ];
         return response()->json($data, 200);

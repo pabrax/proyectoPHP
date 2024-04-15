@@ -2,34 +2,33 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\EmpleadoController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\TareaController;
+use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\TaskController;
 
 
 // user routes
-Route::get('/user', [EmpleadoController::class, 'index']);
+Route::get('/user', [EmployeeController::class, 'index']);
 
-Route::get('/user/{id}', [EmpleadoController::class, 'show']);
+Route::get('/user/{id}', [EmployeeController::class, 'show']);
 
-Route::post('/user', [EmpleadoController::class, 'store']);
+Route::post('/user', [EmployeeController::class, 'store']);
 
-Route::put('/user/{id}', [EmpleadoController::class, 'update']);
+Route::put('/user/{id}', [EmployeeController::class, 'update']);
 
-Route::patch('/user/{id}', [EmpleadoController::class, 'updatePartial']);
+Route::patch('/user/{id}', [EmployeeController::class, 'updatePartial']);
 
-Route::delete('/user/{id}', [EmpleadoController::class, 'delete']);
+Route::delete('/user/{id}', [EmployeeController::class, 'delete']);
 
 // task routes
 
-Route::get('/tasks', [TareaController::class, 'index']);
+Route::get('/tasks', [TaskController::class, 'index']);
 
-Route::post('/tasks', [TareaController::class, 'store']);
+Route::post('/tasks', [TaskController::class, 'store']);
 
-Route::get('/tasks/{id}', [TareaController::class, 'show']);
+Route::get('/tasks/{id}', [TaskController::class, 'show']);
 
-Route::put('/tasks/{id}', [TareaController::class, 'update']);
+Route::put('/tasks/{id}', [TaskController::class, 'update']);
 
-Route::patch('/tasks/{id}', [TareaController::class, 'updatePartial']);
+Route::patch('/tasks/{id}', [TaskController::class, 'updatePartial']);
 
-Route::delete('/tasks/{id}', [TareaController::class, 'delete']);
+Route::delete('/tasks/{id}', [TaskController::class, 'delete']);

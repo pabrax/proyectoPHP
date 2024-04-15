@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
-use App\Models\Empleado;
-use App\Models\Asistencia;
+use App\Models\Employee;
+use App\Models\Assists;
 
 class LoginController extends Controller
 {
@@ -28,9 +28,9 @@ class LoginController extends Controller
             return response()->json($data, 400);
         }
 
-        $usuario = Empleado::where('email', $request->email)->first();
+        $user = Employee::where('email', $request->email)->first();
 
-        if (!$usuario || !Hash::check($request->password, $usuario->password)) {
+        if (!$user || !Hash::check($request->password, $user->password)) {
             $data = [
                 'message' => 'Credenciales inválidas',
                 'status' => 401
@@ -52,16 +52,16 @@ class LoginController extends Controller
         $request->session()->regenerate();
 
         // Registro de asistencia al inicio de sesión
-        $asistenciaInicio = Asistencia::create([
-            'hora_entrada' => now()->format('H:i:s'),
-            'fecha' => now()->toDateString(),
-            'empleado_id' => $usuario->id
+        $asistenciaInicio = Assists::create([
+            'entry_time' => now()->format('H:i:s'),
+            'date' => now()->toDateString(),
+            'employee_id' => $user->id
         ]);
 
         $data = [
             'message' => 'Inicio de sesion exitoso',
             'status' => 200,
-            'data' => $usuario,
+            'data' => $user,
             'asistenciaInicio' => $asistenciaInicio
         ];
 
@@ -84,8 +84,8 @@ class LoginController extends Controller
         $user = Auth::user();
 
         // Registro de asistencia al cierre de sesión
-        $asistencia = Asistencia::where('empleado_id', $user->id)
-            ->where('fecha', now()->toDateString())
+        $asistencia = Assists::where('employee_id', $user->id)
+            ->where('date', now()->toDateString())
             ->first();
 
         $asistencia->hora_salida = now()->format('H:i:s');

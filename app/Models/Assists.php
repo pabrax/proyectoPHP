@@ -5,14 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Tarea extends Model
+class Assists extends Model
 {
     use HasFactory;
 
-    protected $table = 'tareas';
+    protected $table = 'assists';
 
     protected $fillable = [
-        'titulo',
-        'descripcion'
+        'employee_id',
+        'date',
+        'entry_time',
+        'exit_time'
     ];
 }
