@@ -83,18 +83,31 @@ class LoginController extends Controller
     {
         $user = Auth::user();
 
+        if (!$user) {
+            $data = [
+                'message' => 'No has iniciado sesion',
+                'status' => 401
+            ];
+            return response()->json($data, 401);
+        }
+
         // Registro de asistencia al cierre de sesión
         $asistencia = Assists::where('employee_id', $user->id)
             ->where('date', now()->toDateString())
             ->first();
 
-        $asistencia->hora_salida = now()->format('H:i:s');
+        $asistencia->exit_time = now()->format('H:i:s');
         $asistencia->save();
 
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return response()->json(200);
+        $data = [
+            'message' => 'cierre de sesion exitoso',
+            'status' => 200,
+        ];
+
+        return response()->json($data, 200);
     }
 }
