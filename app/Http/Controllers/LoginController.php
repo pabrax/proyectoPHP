@@ -68,17 +68,6 @@ class LoginController extends Controller
         return response()->json($data, 200);
     }
 
-    public function me()
-    {
-        $user = Auth::user();
-
-        if ($user) {
-            return response()->json($user, 200);
-        }
-
-        return response()->json(null, 204);
-    }
-
     public function logout(Request $request)
     {
         $user = Auth::user();

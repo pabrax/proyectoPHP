@@ -39,7 +39,7 @@ class EmployeeController extends Controller
             'lastname' => 'required',
             'email' => 'required|email|unique:employees,email',
             'password' => 'required|min:8',
-            'user_type' => 'required|in:gerente,Employee,RRHH,CEO,marketing'
+            'user_type' => 'required|in:gerente,empleado,RRHH,CEO,marketing'
         ]);
 
         if ($validator->fails()) {
@@ -113,7 +113,7 @@ class EmployeeController extends Controller
             'name' => 'required',
             'lastname' => 'required',
             'email' => 'required|email|unique:employees,email,' . $id,
-            'user_type' => 'required|in:gerente,Employee,RRHH,CEO,marketing'
+            'user_type' => 'required|in:gerente,empleado,RRHH,CEO,marketing'
         ]);
 
         if ($validator->fails()) {
@@ -156,7 +156,7 @@ class EmployeeController extends Controller
             'name' => '',
             'lastname' => '',
             'email' => '|email|unique:employees,email,' . $id,
-            'user_type' => '|in:gerente,Employee,RRHH,CEO,marketing'
+            'user_type' => '|in:gerente,empleado,RRHH,CEO,marketing'
         ]);
 
         if ($validator->fails()) {
