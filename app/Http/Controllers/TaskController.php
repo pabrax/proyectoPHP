@@ -191,4 +191,26 @@ class TaskController extends Controller
         ];
         return response()->json($data, 200);
     }
+
+    // created by el parcero
+    public function showUnassignedTasks()
+    {
+        $tasks = Task::doesntHave('employee')->get();
+
+        if ($tasks->isEmpty()) {
+            $data = [
+                'message' => 'No hay tareas sin asignar',
+                'status' => '404'
+            ];
+            return response()->json($data, 404);
+        }
+
+        $data = [
+            'message' => 'Tareas sin asignar recuperadas correctamente',
+            'status' => '200',
+            'data' => $tasks
+        ];
+
+        return response()->json($data, 200);
+    }
 }
