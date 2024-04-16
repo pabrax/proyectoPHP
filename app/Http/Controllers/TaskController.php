@@ -48,9 +48,8 @@ class TaskController extends Controller
         }
 
         $tasks = Task::create([
-            'titulo' => $request->titulo,
-            'descripcion' => $request->descripcion,
-            'fecha_entrega' => $request->fecha_entrega
+            'title' => $request->title,
+            'description' => $request->description
         ]);
 
         if (!$tasks) {
@@ -103,9 +102,8 @@ class TaskController extends Controller
         }
 
         $valitador = validator::make($request->all(), [
-            'titulo' => 'required',
-            'descripcion' => 'required',
-            'fecha_entrega' => 'required|date'
+            'title' => 'required',
+            'description' => 'required',
         ]);
 
         if ($valitador->fails()) {
@@ -118,9 +116,8 @@ class TaskController extends Controller
         }
 
         $task = Task::where('id', $id)->update([
-            'titulo' => $request->titulo,
-            'descripcion' => $request->descripcion,
-            'fecha_entrega' => $request->fecha_entrega
+            'title' => $request->title,
+            'description' => $request->description
         ]);
 
         $data = [
@@ -144,9 +141,8 @@ class TaskController extends Controller
         }
 
         $validator = validator::make($request->all(), [
-            'titulo' => '',
-            'descripcion' => '',
-            'fecha_entrega' => 'date'
+            'title' => '',
+            'description' => '',
         ]);
 
         if ($validator->fails()) {
@@ -158,14 +154,11 @@ class TaskController extends Controller
             return response()->json($data, 400);
         }
 
-        if ($request->has('titulo')) {
-            $task->titulo = $request->titulo;
+        if ($request->has('title')) {
+            $task->title = $request->title;
         }
-        if ($request->has('descripcion')) {
-            $task->descripcion = $request->descripcion;
-        }
-        if ($request->has('fecha_entrega')) {
-            $task->fecha_entrega = $request->fecha_entrega;
+        if ($request->has('description')) {
+            $task->description = $request->description;
         }
 
         $task->save();
