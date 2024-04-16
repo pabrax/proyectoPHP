@@ -21,7 +21,10 @@ Route::delete('/user/{id}', [EmployeeController::class, 'delete']);
 
 // task routes
 
-Route::get('/tasks', [TaskController::class, 'index']);
+Route::get('/tasks', [TaskController::class, 'index'])->name('tasks');;
+
+// implemented by el parcero
+Route::get('/unassigned-tasks', [TaskController::class, 'showUnassignedTasks']);
 
 Route::post('/tasks', [TaskController::class, 'store']);
 
