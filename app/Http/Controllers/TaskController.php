@@ -34,6 +34,7 @@ class TaskController extends Controller
     {
 
         $validator = validator::make($request->all(), [
+            'employee_id' => 'required|exists:employees,id',
             'title' => 'required',
             'description' => 'required'
         ]);
@@ -48,6 +49,7 @@ class TaskController extends Controller
         }
 
         $tasks = Task::create([
+            'employee_id' => $request->employee_id,
             'title' => $request->title,
             'description' => $request->description
         ]);
@@ -102,6 +104,7 @@ class TaskController extends Controller
         }
 
         $valitador = validator::make($request->all(), [
+            'employee_id' => 'exists:employees,id',
             'title' => 'required',
             'description' => 'required',
         ]);
@@ -116,6 +119,7 @@ class TaskController extends Controller
         }
 
         $task = Task::where('id', $id)->update([
+            'employee_id' => $request->employee_id,
             'title' => $request->title,
             'description' => $request->description
         ]);
@@ -141,6 +145,7 @@ class TaskController extends Controller
         }
 
         $validator = validator::make($request->all(), [
+            'employee_id' => 'exists:employees,id',
             'title' => '',
             'description' => '',
         ]);
@@ -152,6 +157,10 @@ class TaskController extends Controller
                 'data' => $validator->errors()
             ];
             return response()->json($data, 400);
+        }
+
+        if ($request->has('employee_id')) {
+            $task->employee_id = $request->employee_id;
         }
 
         if ($request->has('title')) {
