@@ -12,27 +12,26 @@ Route::get('/login', function () {
     return view('login');
 });
 
-Route::post('/login', [LoginController::class, 'login'])->name('login');
+// rutas definidas post auth
 
-Route::get('/logout', [LoginController::class, 'logout']);
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware('auth');
 
-Route::get('/me', [LoginController::class, 'me']);
-
-
-Route::get('/login2', function () {
-    return view('login2');
-});
-
-Route::get('/welcome2', function () {
-    return view('welcome2');
-});
-
-// Esta es la ruta que se encargara de gestionar la parte administrativa de los ususarios, como crear ususarios, eliminarlos, actualizarlos, etc. a su vez se encargara de gestionar y asignar las tareas de los empleados.
-
-Route::get('/testCheck', function () {
-    return response()->json(['message' => 'I am alive'], 200);
-})->middleware(CheckRole::class);
-
+// creada por Daniel cardona arroyave
 Route::get('/tasks', function () {
     return view('tasks');
-})->middleware('auth');
+})->middleware('auth')->name('tasks');
+
+Route::get('/users', function () {
+    return view('users');
+})->middleware('auth')->name('users');
+
+Route::get('/assists', function () {
+    return view('assists');
+})->middleware('auth')->name('assists');
+
+Route::get('/logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth');
+
+// rutas POST
+Route::post('/login', [LoginController::class, 'login'])->name('login');
