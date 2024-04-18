@@ -1,12 +1,11 @@
-<div id="welcome-message">
-    <!-- Bienvenid@ nuevamente   -->
-</div>
+<!-- creado por felipe leon osorio -->
+
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
     <meta charset="UTF-8">
-    <title>Bienvenida</title>
+    <title>dashboard</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -14,13 +13,13 @@
 
     <div class="container">
         <header>
-            <h1>Bienvenido(a) a la Plataforma de Gestión</h1>
+            <h1>Menu principal de gestion ProyectoPHP</h1>
             <nav>
                 <ul>
-                    <li><a href="dashboard.php">Dashboard</a></li>
-                    <li><a href="tasks.php">Gestión de Tareas</a></li>
-                    <li><a href="users.php">Gestión de Usuarios</a></li>
-                    <li><a href="logout.php">Cerrar sesión</a></li>
+                    <li><a href="{{ route('users') }}">Usuarios</a></li>
+                    <li><a href="{{ route('tasks') }}">Tareas</a></li>
+                    <li><a href="{{ route('assists') }}">asistencia</a></li>
+                    <li><a href="{{ route('logout') }}">Cerrar sesión</a></li>
                 </ul>
             </nav>
         </header>
@@ -28,11 +27,16 @@
         <main>
             <section id="welcome-message">
                 <!-- El mensaje de bienvenida se insertará aquí -->
+                <h2>proyecto creado por:</h2>
+                <h3>pablo espinosa Giraldo</h3>
+                <h3>Santiago bedoya santa</h3>
+                <h3>Daniel cardona arroyave</h3>
+                <h3></h3>
             </section>
         </main>
 
         <footer>
-            <p>© 2024 Universidad XYZ. Todos los derechos reservados.</p>
+            <p>© 2024 Instituto Tecnologico Metropolitano.</p>
         </footer>
     </div>
 

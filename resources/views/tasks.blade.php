@@ -1,10 +1,18 @@
+<!-- creado por: Daniel cardona arroyave -->
+
 <!DOCTYPE html>
 <html lang="{{str_replace('_', '-', app()->getLocale())}}">
 
-<!--aqui no se si va un include de login-->
 
+<?php
 
+use App\Models\Task;
+use Illuminate\Support\Facades\Auth;
 
+$user = Auth::user();
+$tasks = Task::where('employee_id', $user->id)->get();
+
+?>
 
 
 <head>

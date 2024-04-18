@@ -1,5 +1,7 @@
 <?php
 
+// creado por santiago bedoya santa
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -58,14 +60,7 @@ class LoginController extends Controller
             'employee_id' => $user->id
         ]);
 
-        $data = [
-            'message' => 'Inicio de sesion exitoso',
-            'status' => 200,
-            'data' => $user,
-            'asistenciaInicio' => $asistenciaInicio
-        ];
-
-        return response()->json($data, 200);
+        return redirect('/dashboard');
     }
 
     public function logout(Request $request)
@@ -97,6 +92,7 @@ class LoginController extends Controller
             'status' => 200,
         ];
 
-        return response()->json($data, 200);
+        return redirect('/');
+        // return response()->json($data, 200);
     }
 }

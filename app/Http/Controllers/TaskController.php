@@ -69,7 +69,7 @@ class TaskController extends Controller
         ];
         return response()->json($data, 200);
     }
-
+    // creado por felipe leon osorio
     public function show($id)
     {
         $task = Task::find($id);
@@ -90,7 +90,8 @@ class TaskController extends Controller
 
         return response()->json($task, 200);
     }
-
+    
+    // creado por felipe leon osorio
     public function update(Request $request, $id)
     {
         $task = Task::find($id);
@@ -201,7 +202,7 @@ class TaskController extends Controller
         return response()->json($data, 200);
     }
 
-    // created by el parcero
+    // created by Daniel cardona arroyave
     public function showUnassignedTasks()
     {
         $tasks = Task::doesntHave('employee')->get();
