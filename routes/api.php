@@ -23,9 +23,6 @@ Route::delete('/user/{id}', [EmployeeController::class, 'delete']);
 
 Route::get('/tasks', [TaskController::class, 'index'])->name('tasks');;
 
-// implemented by el parcero
-Route::get('/unassigned-tasks', [TaskController::class, 'showUnassignedTasks']);
-
 Route::post('/tasks', [TaskController::class, 'store']);
 
 Route::get('/tasks/{id}', [TaskController::class, 'show']);
@@ -35,3 +32,6 @@ Route::put('/tasks/{id}', [TaskController::class, 'update']);
 Route::patch('/tasks/{id}', [TaskController::class, 'updatePartial']);
 
 Route::delete('/tasks/{id}', [TaskController::class, 'delete']);
+
+// implemented by daniel cardona arroyave
+Route::get('/unassigned-tasks', [TaskController::class, 'showUnassignedTasks']);
