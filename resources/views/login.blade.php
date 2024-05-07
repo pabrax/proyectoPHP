@@ -34,7 +34,7 @@
     button {
         padding: 10px 20px;
         background-color: #007BFF;
-        color: white;
+        color: red;
         border: none;
         cursor: pointer;
     }
@@ -43,7 +43,7 @@
             width: 100%;
             padding: 10px;
             background-color: #4CAF50;
-            color: white;
+            color: blue;
             border: none;
             border-radius: 5px;
             cursor: pointer;
