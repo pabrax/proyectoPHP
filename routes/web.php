@@ -35,10 +35,6 @@ Route::get('/assists', [AssistController::class, 'index'])->middleware('auth')->
 
 // creada por Daniel cardona arroyave
 
-<<<<<<< HEAD
 Route::get('/tasks', function () {
     return view('tasks');
 })->middleware('auth')->name('tasks');
-=======
-Route::get('/tasks', [TaskController::class, 'index'])->middleware('auth')->name('tasks');
->>>>>>> cc91345ab02f7e225a5d2018eb874a11b6d79770
