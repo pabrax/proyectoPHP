@@ -17,4 +17,9 @@ class Assists extends Model
         'entry_time',
         'exit_time'
     ];
+
+    function employee()
+    {
+        return $this->belongsTo(Employee::class);
+    }
 }
