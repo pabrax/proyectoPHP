@@ -1,41 +1,14 @@
-<!-- creado por: Daniel cardona arroyave -->
+@extends('layouts.app')
 
-<!DOCTYPE html>
-<html lang="{{str_replace('_', '-', app()->getLocale())}}">
-
-<?php
-
-use App\Models\Employee;
-
-$users = Employee::all();
-
-?>
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Users Table</title>
-</head>
-
-<body>
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Task</th>
-        <tr>
-    </thead>
-
-    <tbody>
-        @foreach($users as $employee)
-        <tr>
-            <td>{{$employee->id}}</td>
-            <td>{{$employee->name}}</td>
-            <td>{{$employee->lastname}}</td>
-            <td>{{$employee->email}}</td>
-            <td>{{$employee->user_type}}</td>
-        </tr>
-        @endforeach
-    </tbody>
-</body>
-
-</html>
+@section('content')
+<div class="container-fluid row p-0 m-0">
+    <div class="col-6 m-0 p-0" style="width: 20%; height: 100vh;">
+        @include('partials.navbar')
+    </div>
+    
+    <div class="col">
+        <h1 class="mb-3">Users view</h1>
+        @include('layouts.user_table')
+    </div>
+</div>
+@endsection
