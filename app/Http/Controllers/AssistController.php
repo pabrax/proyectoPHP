@@ -12,6 +12,29 @@ class AssistController extends Controller
 {
     public function index()
     {
+        $user = Auth::user();
+        $assist = Assists::where('employee_id', $user->id)->with('employee')->get();
+
+        if ($assist->isEmpty()) {
+            $data = [
+                'message' => 'No hay asistencias registradas',
+                'status' => '404'
+            ];
+            return response()->json($data, 404);
+        }
+
+        $data = [
+            'message' => 'asistencias recuperadas correctamente',
+            'status' => '200',
+            'data' => $assist
+        ];
+
+        return view('assists', compact('assist'));
+    }
+
+    public function allAssists()
+    {
+
         $assist = Assists::all();
 
         if ($assist->isEmpty()) {
