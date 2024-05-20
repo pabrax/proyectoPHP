@@ -5,29 +5,25 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Task;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
     public function index()
     {
-        $tasks = Task::all();
+        $user = Auth::user();
+        $tasks = Task::where('employee_id', $user->id)->get();
+
 
         if ($tasks->isEmpty()) {
             $data = [
                 'message' => 'No hay tasks registradas',
                 'status' => '404'
             ];
-            return response()->json($data, 404);
+            return view('tasks', compact('tasks'));
         }
 
-        $data = [
-            'message' => 'tasks recuperadas correctamente',
-            'status' => '200',
-            'data' => $tasks
-        ];
-
-        return response()->json($tasks, 200);
+        return view('tasks', compact('tasks'));
     }
 
     public function store(Request $request)
@@ -62,12 +58,7 @@ class TaskController extends Controller
             return response()->json($data, 400);
         }
 
-        $data = [
-            'message' => 'task creada correctamente',
-            'status' => 200,
-            'data' => $tasks
-        ];
-        return response()->json($data, 200);
+        return view('tasks', compact('tasks'));
     }
     // creado por felipe leon osorio
     public function show($id)
@@ -82,15 +73,9 @@ class TaskController extends Controller
             return response()->json($data, 404);
         }
 
-        $data = [
-            'message' => 'task recuperada correctamente',
-            'status' => '200',
-            'data' => $task
-        ];
-
-        return response()->json($task, 200);
+        return view('tasks', compact('task'));
     }
-    
+
     // creado por felipe leon osorio
     public function update(Request $request, $id)
     {
@@ -125,12 +110,8 @@ class TaskController extends Controller
             'description' => $request->description
         ]);
 
-        $data = [
-            'message' => 'task actualizada correctamente',
-            'status' => 200,
-            'data' => $task
-        ];
-        return response()->json($data, 200);
+
+        return view('tasks', compact('task'));
     }
 
     public function updatePartial(Request $request, $id)
@@ -173,12 +154,7 @@ class TaskController extends Controller
 
         $task->save();
 
-        $data = [
-            'message' => 'task actualizada correctamente',
-            'status' => 200,
-            'data' => $task
-        ];
-        return response()->json($data, 200);
+        return view('tasks', compact('task'));
     }
 
     public function delete($id)
@@ -195,11 +171,7 @@ class TaskController extends Controller
 
         $task->delete();
 
-        $data = [
-            'message' => 'task eliminada correctamente',
-            'status' => 200
-        ];
-        return response()->json($data, 200);
+        return view('tasks', compact('task'));
     }
 
     // created by Daniel cardona arroyave
@@ -215,12 +187,6 @@ class TaskController extends Controller
             return response()->json($data, 404);
         }
 
-        $data = [
-            'message' => 'Tareas sin asignar recuperadas correctamente',
-            'status' => '200',
-            'data' => $tasks
-        ];
-
-        return response()->json($data, 200);
+        return view('tasks', compact('tasks'));
     }
 }

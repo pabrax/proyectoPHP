@@ -29,7 +29,7 @@ class EmployeeController extends Controller
             'data' => $employees
         ];
 
-        return response()->json($employees, 200);
+        return view('users', compact('employees'));
     }
 
     public function store(Request $request)
@@ -74,7 +74,7 @@ class EmployeeController extends Controller
             'status' => 201,
             'data' => $employee
         ];
-        return response()->json($data, 201);
+        return view('users', compact('employee'));
     }
 
     public function show($id)
@@ -94,7 +94,7 @@ class EmployeeController extends Controller
             'status' => 200,
             'data' => $employee
         ];
-        return response()->json($data, 200);
+        return view('users', compact('employee'));
     }
 
     public function update(Request $request, $id)
@@ -137,7 +137,7 @@ class EmployeeController extends Controller
             'status' => 200,
             'data' => $employee
         ];
-        return response()->json($data, 200);
+        return view('users', compact('employee'));
     }
 
     public function updatePartial(Request $request, $id)
@@ -189,7 +189,7 @@ class EmployeeController extends Controller
             'status' => 200,
             'data' => $employee
         ];
-        return response()->json($data, 200);
+        return view('users', compact('employee'));
     }
 
     public function delete($id)
@@ -210,6 +210,6 @@ class EmployeeController extends Controller
             'message' => 'Employee eliminado correctamente',
             'status' => 200
         ];
-        return response()->json($data, 200);
+        return view('users', compact('employee'));
     }
 }

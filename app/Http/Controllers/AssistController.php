@@ -6,14 +6,15 @@ use Illuminate\Http\Request;
 
 use App\Models\Assists;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
-class AssistsController extends Controller
+class AssistController extends Controller
 {
     public function index()
     {
-        $Assist = Assists::all();
+        $assist = Assists::all();
 
-        if ($Assist->isEmpty()) {
+        if ($assist->isEmpty()) {
             $data = [
                 'message' => 'No hay asistencias registradas',
                 'status' => '404'
@@ -24,10 +25,10 @@ class AssistsController extends Controller
         $data = [
             'message' => 'asistencias recuperadas correctamente',
             'status' => '200',
-            'data' => $Assist
+            'data' => $assist
         ];
 
-        return response()->json($Assist, 200);
+        return view('assists', compact('assist'));
     }
 
     public function store(Request $request)
@@ -66,9 +67,10 @@ class AssistsController extends Controller
 
     public function show($id)
     {
-        $Assists = Assists::find($id);
+        $user = Auth::user();
+        $assists = Assists::where('employee_id', $user->id)->with('employee')->get();
 
-        if (!$Assists) {
+        if (!$assists) {
             $data = [
                 'message' => 'Assists no encontrada',
                 'status' => 404
@@ -79,10 +81,10 @@ class AssistsController extends Controller
         $data = [
             'message' => 'Assists recuperada correctamente',
             'status' => 200,
-            'data' => $Assists
+            'data' => $assists
         ];
 
-        return response()->json($data, 200);
+        return view('assists', compact('assists'));
     }
 
     public function update(Request $request, $id)
