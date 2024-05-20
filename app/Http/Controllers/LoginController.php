@@ -14,6 +14,10 @@ use App\Models\Assists;
 
 class LoginController extends Controller
 {
+    public function index()
+    {
+        return view('auth.login');
+    }
     public function login(Request $request)
     {
         $validator = validator::make($request->all(), [
@@ -60,7 +64,7 @@ class LoginController extends Controller
             'employee_id' => $user->id
         ]);
 
-        return redirect('/dashboard');
+        return redirect('/home');
     }
 
     public function logout(Request $request)
