@@ -8,10 +8,10 @@
     
     <div class="col ms-5 p-0 align-self-center">
         <div class="d-flex flex-column  space-between">
-            <h1 class="mb-3 flex-shrink-1">Task view</h1>
+            <h1 class="mb-3 flex-shrink-1">Assists view</h1>
             
             <div class="border border-1 rounded-3 p-2 border-secondary h-100">
-                    @include('layouts.task_table' , ['tasks' => $tasks])    
+                    @include('layouts.assists_table', ['assists' => $assist])    
             </div>
         </div>
         

@@ -1,19 +1,5 @@
 <!-- creado por: Daniel cardona arroyave -->
 
-<!DOCTYPE html>
-<html lang="{{str_replace('_', '-', app()->getLocale())}}">
-
-
-<?php
-
-use App\Models\Task;
-use Illuminate\Support\Facades\Auth;
-
-$user = Auth::user();
-$tasks = Task::where('employee_id', $user->id)->get();
-
-?>
-
 <div class="content_container col">
     <table class="table table-striped">
         <thead>

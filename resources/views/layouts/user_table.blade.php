@@ -1,16 +1,5 @@
 <!-- creado por: Daniel cardona arroyave -->
 
-<!DOCTYPE html>
-<html lang="{{str_replace('_', '-', app()->getLocale())}}">
-
-<?php
-
-use App\Models\Employee;
-
-$users = Employee::all();
-
-?>
-
 <div class="content_container col">
     <table class="table table-striped">
         <thead>
