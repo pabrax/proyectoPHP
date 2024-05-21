@@ -29,10 +29,30 @@ Route::get('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-Route::get('/users', [EmployeeController::class, 'index'])->middleware(CheckRole::class)->name('users');
-
 Route::get('/assists', [AssistController::class, 'index'])->middleware('auth')->name('assists');
 
 // creada por Daniel cardona arroyave
 
+// tasks routes
+
 Route::get('/tasks', [TaskController::class, 'index'])->middleware('auth')->name('tasks');
+
+Route::put('/tasks/{id}', [TaskController::class, 'update'])->middleware('auth')->name('tasks.update');
+
+Route::get('/users/{id}/edit', [TaskController::class, 'edit'])->middleware(CheckRole::class)->name('tasks.edit');
+
+Route::delete('/tasks/{id}', [TaskController::class, 'delete'])->middleware('auth')->name('tasks.delete');
+
+// user routes
+
+Route::get('/users', [EmployeeController::class, 'index'])->middleware(CheckRole::class)->name('users');
+
+Route::post('/users', [EmployeeController::class, 'store'])->middleware(CheckRole::class)->name('users.store');
+
+Route::put('/users/{id}', [EmployeeController::class, 'update'])->middleware(CheckRole::class)->name('users.update');
+
+Route::get('/users/{id}/edit', [EmployeeController::class, 'edit'])->middleware(CheckRole::class)->name('users.edit');
+
+Route::get('/users/create', [EmployeeController::class, 'create'])->middleware(CheckRole::class)->name('users.create');
+
+Route::delete('/users/{id}', [EmployeeController::class, 'delete'])->middleware(CheckRole::class)->name('users.delete');

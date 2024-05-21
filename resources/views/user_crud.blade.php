@@ -8,15 +8,10 @@
     
     <div class="col ms-5 p-0 align-self-center me-5">
         <div class="d-flex flex-column  space-between">
-            <div class="mb-3 d-flex justify-content-between">
-                <h1 class="mb-3">User view</h1>
-                @if (Auth::user()->user_type == 'gerente' || Auth::user()->user_type == 'CEO')
-                    <a href="{{ route('users.create') }}" class="btn btn-primary align-self-center">New User</a>
-                @endif
-            </div>
+            <h1 class="mb-3 flex-shrink-1">Edit user</h1>
             
             <div class="border border-1 rounded-3 p-2 border-secondary h-100">
-                    @include('layouts.user_table', ['users' => $employee])    
+                    @include('layouts.user_crud')    
             </div>
         </div>
         

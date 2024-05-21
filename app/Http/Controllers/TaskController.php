@@ -114,6 +114,21 @@ class TaskController extends Controller
         return view('tasks', compact('task'));
     }
 
+    public function edit($id)
+    {
+        $task = Task::find($id);
+
+        if (!$task) {
+            $data = [
+                'message' => 'task no encontrada',
+                'status' => 404
+            ];
+            return response()->json($data, 404);
+        }
+
+        return view('tasks_crud', compact('task'));
+    }
+
     public function updatePartial(Request $request, $id)
     {
         $task = Task::find($id);

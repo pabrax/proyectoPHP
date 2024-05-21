@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Employee;
+use App\Http\Controllers\EmployeeController;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
-class RegisterController extends Controller
+class RegisterController extends LoginController
 {
     /*
     |--------------------------------------------------------------------------
@@ -63,9 +65,11 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        return Employee::create([
             'name' => $data['name'],
+            'lastname' => $data['lastname'],
             'email' => $data['email'],
+            'user_type' => $data['user_type'], // 'empleado' is the default value for 'user_type
             'password' => Hash::make($data['password']),
         ]);
     }

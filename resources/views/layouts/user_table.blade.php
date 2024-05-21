@@ -20,6 +20,17 @@
                 <td>{{$employee->lastname}}</td>
                 <td>{{$employee->email}}</td>
                 <td>{{$employee->user_type}}</td>
+                <td>
+                    <a href="{{route('users.edit',  $employee->id)}}" class="btn btn-success">edit</a>
+                </td>
+                </td>
+                <td>
+                    <form action="{{route('users.delete', $employee->id)}}" method="post">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
             </tr>
             @endforeach
         </tbody>

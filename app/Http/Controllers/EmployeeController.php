@@ -13,23 +13,23 @@ class EmployeeController extends Controller
 {
     public function index()
     {
-        $employees = Employee::all();
+        $employee = Employee::all();
 
-        if ($employees->isEmpty()) {
+        if ($employee->isEmpty()) {
             $data = [
                 'message' => 'No hay Employees registrados',
                 'status' => '404'
             ];
-            return response()->json($data, 404);
+            return redirect()->route('users');
         }
 
         $data = [
             'message' => 'Employees recuperados correctamente',
             'status' => '200',
-            'data' => $employees
+            'data' => $employee
         ];
 
-        return view('users', compact('employees'));
+        return view('users', compact('employee'));
     }
 
     public function store(Request $request)
@@ -43,12 +43,7 @@ class EmployeeController extends Controller
         ]);
 
         if ($validator->fails()) {
-            $data = [
-                'message' => 'Error en la validación de los datos',
-                'status' => 400,
-                'data' => $validator->errors()
-            ];
-            return response()->json($data, 400);
+            return redirect()->route('users')->withErrors($validator)->withInput();
         }
 
         $pwd = Hash::make($request->password);
@@ -62,19 +57,10 @@ class EmployeeController extends Controller
         ]);
 
         if (!$employee) {
-            $data = [
-                'message' => 'Error al registrar el Employee',
-                'status' => 500
-            ];
-            return response()->json($data, 500);
+            return redirect()->route('users')->with('error', 'Error al crear el Employee');
         }
 
-        $data = [
-            'message' => 'Employee registrado correctamente',
-            'status' => 201,
-            'data' => $employee
-        ];
-        return view('users', compact('employee'));
+        return redirect()->route('users')->with('success', 'Employee creado correctamente');
     }
 
     public function show($id)
@@ -102,11 +88,7 @@ class EmployeeController extends Controller
         $employee = Employee::find($id);
 
         if (!$employee) {
-            $data = [
-                'message' => 'Employee no encontrado',
-                'status' => 404
-            ];
-            return response()->json($data, 404);
+            return redirect()->route('users')->with('error', 'Employee no encontrado');
         }
 
         $validator = validator::make($request->all(), [
@@ -117,12 +99,7 @@ class EmployeeController extends Controller
         ]);
 
         if ($validator->fails()) {
-            $data = [
-                'message' => 'Error en la validación de los datos',
-                'status' => 400,
-                'data' => $validator->errors()
-            ];
-            return response()->json($data, 400);
+            return redirect()->route('users.update', $id)->withErrors($validator)->withInput();
         }
 
         $employee = Employee::where('id', $id)->update([
@@ -132,12 +109,18 @@ class EmployeeController extends Controller
             'user_type' => $request->user_type
         ]);
 
-        $data = [
-            'message' => 'Employee actualizado correctamente',
-            'status' => 200,
-            'data' => $employee
-        ];
-        return view('users', compact('employee'));
+        return redirect()->route('users')->with('success', 'Employee actualizado correctamente');
+    }
+
+    public function edit($id)
+    {
+        $employee = Employee::find($id);
+
+        if (!$employee) {
+            return redirect()->route('users')->with('error', 'Employee no encontrado');
+        }
+
+        return view('user_crud', compact('employee'));
     }
 
     public function updatePartial(Request $request, $id)
@@ -192,6 +175,11 @@ class EmployeeController extends Controller
         return view('users', compact('employee'));
     }
 
+    public function create()
+    {
+        return view('create_user');
+    }
+
     public function delete($id)
     {
         $employee = Employee::find($id);
@@ -201,7 +189,7 @@ class EmployeeController extends Controller
                 'message' => 'Employee no encontrado',
                 'status' => 404
             ];
-            return response()->json($data, 404);
+            return redirect()->route('users');
         }
 
         $employee->delete();
@@ -210,6 +198,6 @@ class EmployeeController extends Controller
             'message' => 'Employee eliminado correctamente',
             'status' => 200
         ];
-        return view('users', compact('employee'));
+        return redirect()->route('users');
     }
 }
