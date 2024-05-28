@@ -39,9 +39,13 @@ Route::get('/tasks', [TaskController::class, 'index'])->middleware('auth')->name
 
 Route::put('/tasks/{id}', [TaskController::class, 'update'])->middleware('auth')->name('tasks.update');
 
-Route::get('/users/{id}/edit', [TaskController::class, 'edit'])->middleware(CheckRole::class)->name('tasks.edit');
+Route::get('/tasks/{id}/edit', [TaskController::class, 'edit'])->middleware(CheckRole::class)->name('tasks.edit');
 
 Route::delete('/tasks/{id}', [TaskController::class, 'delete'])->middleware('auth')->name('tasks.delete');
+
+Route::get('/tasks/create', [TaskController::class, 'create'])->middleware('auth')->name('tasks.create');
+
+Route::post('/tasks', [TaskController::class, 'store'])->middleware('auth')->name('tasks.store');
 
 // user routes
 
