@@ -6,9 +6,15 @@
         @include('partials.navbar')
     </div>
     
-    <div class="col ms-5 p-0 align-self-center">
+    <div class="col ms-5 p-0 align-self-center me-5">
         <div class="d-flex flex-column  space-between">
-            <h1 class="mb-3 flex-shrink-1">Task view</h1>
+            <div class="mb-3 d-flex justify-content-between">
+                <h1 class="mb-3">Task view</h1>
+                @if (Auth::user()->user_type == 'gerente' || Auth::user()->user_type == 'CEO')
+                    <a href="{{ route('tasks.create') }}" class="btn btn-primary align-self-center">New Task</a>
+                @endif
+
+            </div>
             
             <div class="border border-1 rounded-3 p-2 border-secondary h-100">
                     @include('layouts.task_table' , ['tasks' => $tasks])    

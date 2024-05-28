@@ -20,6 +20,17 @@
                 <td>{{$task->title}}</td>
                 <td>{{$task->description}}</td>
                 <td>{{$task->employee->name}}</td>
+                <td>
+                    <a href="{{route('tasks.edit',  $task->id)}}" class="btn btn-success">edit</a>
+                </td>
+                </td>
+                <td>
+                    <form action="{{route('tasks.delete', $task->id)}}" method="post">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
             </tr>
             @endif
             @endforeach
