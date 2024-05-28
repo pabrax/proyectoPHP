@@ -2,88 +2,23 @@
 
 @extends('layouts.app')
 
+
 @section('content')
-<div class="container">
-    <header>
-        <h1>Menu principal de gestion ProyectoPHP</h1>
-        <nav>
-            <ul>
-                <li><a href="{{ route('users') }}">Usuarios</a></li>
-                <li><a href="{{ route('tasks') }}">Tareas</a></li>
-                <li><a href="{{ route('assists') }}">asistencia</a></li>
-                <li><a href="{{ route('logout') }}">Cerrar sesión</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <main>
-        <section id="welcome-message">
-            <!-- El mensaje de bienvenida se insertará aquí -->
-            <h2>proyecto creado por:</h2>
-            <h5>pablo espinosa Giraldo</h5>
-            <h5>Santiago bedoya santa</h5>
-            <h5>Daniel cardona arroyave</h5>
-            <h5>felipe leon osorio</h5>
-        </section>
-        </section>
-    </main>
-
-    <footer>
-        <p>© 2024 Instituto Tecnologico Metropolitano.</p>
-    </footer>
+<div class="container-fluid row p-0 m-0 spa">
+    <div class="col-6 m-0 p-0" style="width: 250px; height: 100vh;">
+        @include('partials.navbar')
+    </div>
+    
+    <div class="col ms-5 p-0 align-self-center me-5">
+        <div class="d-flex flex-column  space-between">
+            <h1 class="mb-3 flex-shrink-1">Menu principal de gestion ProyectoPHP</h1>
+            
+            <div class="p-2 h-100">
+                    @include('layouts.home')    
+            </div>
+        </div>
+        
+    </div>
 </div>
 @endsection
 
-
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f4f4f4;
-    }
-
-    .container {
-        width: 80%;
-        margin: 20px auto;
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-
-    header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-    }
-
-    nav ul {
-        list-style-type: none;
-        padding: 0;
-    }
-
-    nav ul li {
-        display: inline-block;
-        margin-right: 20px;
-    }
-
-    nav ul li a {
-        text-decoration: none;
-        color: #333;
-        padding: 5px 10px;
-        border-radius: 5px;
-        transition: background-color 0.3s;
-    }
-
-    nav ul li a:hover {
-        background-color: #007BFF;
-        color: white;
-    }
-
-    #welcome-message {
-        font-size: 1.2em;
-        margin-top: 20px;
-    }
-</style>
