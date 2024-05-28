@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Task;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Employee;
 
 class TaskController extends Controller
 {
@@ -51,14 +52,11 @@ class TaskController extends Controller
         ]);
 
         if (!$tasks) {
-            $data = [
-                'message' => 'Error al crear la task',
-                'status' => 400
-            ];
-            return response()->json($data, 400);
+            return redirect()->route('tasks')->with('error', 'Error al crear la task');
         }
 
-        return view('tasks', compact('tasks'));
+
+        return redirect()->route('tasks')->with('success', 'Task creada correctamente');
     }
     // creado por felipe leon osorio
     public function show($id)
@@ -82,11 +80,7 @@ class TaskController extends Controller
         $task = Task::find($id);
 
         if (!$task) {
-            $data = [
-                'message' => 'task no encontrada',
-                'status' => '404'
-            ];
-            return response()->json($data, 404);
+            return redirect()->route('tasks')->with('error', 'task no encontrada');
         }
 
         $valitador = validator::make($request->all(), [
@@ -96,12 +90,7 @@ class TaskController extends Controller
         ]);
 
         if ($valitador->fails()) {
-            $data = [
-                'message' => 'Error en la validación de los datos',
-                'status' => 400,
-                'data' => $valitador->errors()
-            ];
-            return response()->json($data, 400);
+            return redirect()->route('tasks.update', $id)->withErrors($valitador)->withInput();
         }
 
         $task = Task::where('id', $id)->update([
@@ -111,7 +100,9 @@ class TaskController extends Controller
         ]);
 
 
-        return view('tasks', compact('task'));
+        return redirect()->route('tasks')->with('success', 'Task actualizada correctamente');
+
+        // return view('tasks', compact('task'));
     }
 
     public function edit($id)
@@ -119,14 +110,11 @@ class TaskController extends Controller
         $task = Task::find($id);
 
         if (!$task) {
-            $data = [
-                'message' => 'task no encontrada',
-                'status' => 404
-            ];
-            return response()->json($data, 404);
+            return redirect()->route('tasks')->with('error', 'task no encontrada');
         }
 
-        return view('tasks_crud', compact('task'));
+        $employees = Employee::all();
+        return view('task_crud', compact('task', 'employees'));
     }
 
     public function updatePartial(Request $request, $id)
@@ -181,12 +169,12 @@ class TaskController extends Controller
                 'message' => 'task no encontrada',
                 'status' => 404
             ];
-            return response()->json($data, 404);
+            return redirect()->route('tasks')->with('error', 'task no encontrada');
         }
 
         $task->delete();
 
-        return view('tasks', compact('task'));
+        return redirect()->route('tasks')->with('success', 'Task eliminada correctamente');
     }
 
     // created by Daniel cardona arroyave
@@ -203,5 +191,12 @@ class TaskController extends Controller
         }
 
         return view('tasks', compact('tasks'));
+    }
+
+    public function create()
+    {
+        return view('create_task', [
+            'employees' => Employee::all()
+        ]);
     }
 }
