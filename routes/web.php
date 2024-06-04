@@ -9,6 +9,7 @@ use App\Http\Controllers\AssistController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\RoleController;
 
 Auth::routes();
 
@@ -60,3 +61,23 @@ Route::get('/users/{id}/edit', [EmployeeController::class, 'edit'])->middleware(
 Route::get('/users/create', [EmployeeController::class, 'create'])->middleware(CheckRole::class)->name('users.create');
 
 Route::delete('/users/{id}', [EmployeeController::class, 'delete'])->middleware(CheckRole::class)->name('users.delete');
+
+// Role routes
+
+
+Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
+
+// Ruta para mostrar el formulario de creación de roles
+Route::get('/roles/create', [RoleController::class, 'create'])->name('roles.create');
+
+// Ruta para almacenar un nuevo rol
+Route::post('/roles', [RoleController::class, 'store'])->name('roles.store');
+
+// Ruta para mostrar el formulario de edición de roles
+Route::get('/roles/{id}/edit', [RoleController::class, 'edit'])->name('roles.edit');
+
+// Ruta para actualizar un rol existente
+Route::put('/roles/{id}', [RoleController::class, 'update'])->name('roles.update');
+
+// Ruta para eliminar un rol
+Route::delete('/roles/{id}', [RoleController::class, 'destroy'])->name('roles.destroy');
